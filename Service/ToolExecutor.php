@@ -117,19 +117,34 @@ class ToolExecutor
             $body = [];
         }
 
-        // Emails and landing pages both store their body in customHtml, and both are
-        // edited by the same GrapesJS builder, which refuses a document with an empty
-        // head. Repair it here so generated HTML stays openable in the builder.
-        if (isset($body['customHtml']) && is_string($body['customHtml'])) {
-            $body['customHtml'] = BuilderHtmlNormalizer::normalize(
-                $body['customHtml'],
-                (string) ($body['subject'] ?? $body['title'] ?? $body['name'] ?? '')
-            );
-        }
+        $body = $this->repairBuilderHtml($body);
 
         $result = $this->bridge->call($user, $api['method'], $path, $query, $body);
 
         return $this->respond($result);
+    }
+
+    /**
+     * Emails and landing pages both keep their body in customHtml, and both are edited by
+     * the same GrapesJS builder, which refuses a document whose head parses empty. Repair
+     * it on the way in, so nothing written through this server lands unopenable.
+     *
+     * @param array<string, mixed>|null $body
+     *
+     * @return array<string, mixed>|null
+     */
+    private function repairBuilderHtml(?array $body): ?array
+    {
+        if (null === $body || !isset($body['customHtml']) || !is_string($body['customHtml'])) {
+            return $body;
+        }
+
+        $body['customHtml'] = BuilderHtmlNormalizer::normalize(
+            $body['customHtml'],
+            (string) ($body['subject'] ?? $body['title'] ?? $body['name'] ?? '')
+        );
+
+        return $body;
     }
 
     /**
@@ -236,6 +251,11 @@ class ToolExecutor
         if (null === $body && !in_array($method, ['GET', 'DELETE'], true)) {
             $body = [];
         }
+
+        // The raw API tool reaches /api/emails and /api/pages too, so it needs the same
+        // repair. Passing HTML straight through here is how an email ends up stored in a
+        // shape the builder cannot open.
+        $body = $this->repairBuilderHtml($body);
 
         $result = $this->bridge->call($user, $method, $path, $query, $body);
 

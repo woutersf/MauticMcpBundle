@@ -6,6 +6,15 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-11-03
+
+### Fixed
+
+- `mautic_api_request` now repairs `customHtml` the same way the dedicated email and page
+  tools do. The raw API tool reaches `/api/emails` and `/api/pages` as well, but passed
+  its body straight through, so HTML written with it still landed in a shape the GrapesJS
+  builder refuses to open. The repair moved into one place that both paths call.
+
 ## [1.1.1] - 2026-11-03
 
 ### Fixed
@@ -47,7 +56,8 @@ All notable changes to this project are documented here. The format follows
   Mautic REST API, MCP prompts, and three ways to authenticate: OAuth 2.1 with dynamic
   client registration, a fixed bearer token, and HTTP basic auth.
 
-[Unreleased]: https://github.com/woutersf/MauticMcpBundle/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/woutersf/MauticMcpBundle/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/woutersf/MauticMcpBundle/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/woutersf/MauticMcpBundle/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/woutersf/MauticMcpBundle/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/woutersf/MauticMcpBundle/releases/tag/v1.0.0
