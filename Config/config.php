@@ -36,6 +36,12 @@ return [
                 'controller' => 'MauticPlugin\MauticMcpBundle\Controller\OauthController::authorizationServerMetadataAction',
                 'method'     => ['GET'],
             ],
+            // RFC 8414 section 3.1: clients probe the path aware variant first.
+            'mautic_mcp_authorization_server_metadata_scoped' => [
+                'path'       => '/.well-known/oauth-authorization-server/mcp',
+                'controller' => 'MauticPlugin\MauticMcpBundle\Controller\OauthController::authorizationServerMetadataAction',
+                'method'     => ['GET'],
+            ],
             'mautic_mcp_openid_metadata' => [
                 'path'       => '/.well-known/openid-configuration',
                 'controller' => 'MauticPlugin\MauticMcpBundle\Controller\OauthController::authorizationServerMetadataAction',
