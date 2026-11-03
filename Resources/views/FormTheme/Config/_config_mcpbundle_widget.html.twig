@@ -1,0 +1,43 @@
+{% block mcpbundleconfig_widget %}
+    <div class="col-md-12">
+        <p class="help-block">
+            The MCP endpoint lives at <code>{{ app.request.schemeAndHttpHost }}/mcp</code>.
+            It only answers once this plugin is published under <strong>Settings &rarr; Plugins</strong>
+            and the REST API is enabled under <strong>Configuration &rarr; API Settings</strong>.
+        </p>
+    </div>
+
+    <div class="col-md-6">{{ form_row(form.mcp_enabled) }}</div>
+    <div class="col-md-6">{{ form_row(form.mcp_allow_oauth) }}</div>
+
+    <div class="col-md-12"><hr></div>
+
+    <div class="col-md-4">{{ form_row(form.mcp_allow_write) }}</div>
+    <div class="col-md-4">{{ form_row(form.mcp_allow_delete) }}</div>
+    <div class="col-md-4">{{ form_row(form.mcp_allow_passthrough) }}</div>
+
+    <div class="col-md-12">
+        <p class="help-block">
+            With writing off, the server advertises read only tools and nothing else, so a
+            connected assistant cannot change this instance even if it tries. Deleting and
+            sending email are a separate switch on top of that.
+        </p>
+    </div>
+
+    <div class="col-md-12"><hr></div>
+
+    <div class="col-md-6">{{ form_row(form.mcp_static_token) }}</div>
+    <div class="col-md-6">{{ form_row(form.mcp_static_token_user_id) }}</div>
+
+    <div class="col-md-12">
+        <p class="help-block">
+            The fixed token is for clients that cannot run an OAuth flow, such as a command
+            line MCP client or an automation platform. Every call made with it acts as the
+            user selected here. Leave the token empty to switch it off.
+        </p>
+    </div>
+
+    <div class="col-md-4">{{ form_row(form.mcp_allow_basic_auth) }}</div>
+    <div class="col-md-4">{{ form_row(form.mcp_access_token_lifetime) }}</div>
+    <div class="col-md-4">{{ form_row(form.mcp_refresh_token_lifetime) }}</div>
+{% endblock %}
