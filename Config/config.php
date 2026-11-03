@@ -5,7 +5,7 @@ declare(strict_types=1);
 return [
     'name'        => 'Mautic MCP Server',
     'description' => 'Exposes Mautic as a remote Model Context Protocol (MCP) server at <code>/mcp</code>, so Claude, ChatGPT and other MCP clients can read and act on this instance.',
-    'version'     => '1.0.0',
+    'version'     => '1.1.0',
     'author'      => 'Dropsolid',
 
     'routes' => [
