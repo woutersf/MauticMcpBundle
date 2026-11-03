@@ -16,7 +16,7 @@ use Mautic\PluginBundle\Helper\IntegrationHelper;
  */
 class McpSettings
 {
-    public const VERSION = '1.1.0';
+    public const VERSION = '1.1.1';
 
     public const INTEGRATION_NAME = 'Mcp';
 

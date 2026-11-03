@@ -6,6 +6,15 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-11-03
+
+### Fixed
+
+- The PHPStan job analysed the test directory, where every file extends PHPUnit's
+  `TestCase`. That job installs PHPStan on its own, so those parent classes are absent
+  and the run failed on unknown classes rather than on anything real. Analysis is now
+  scoped to the code a dependency free checkout can actually verify. No runtime change.
+
 ## [1.1.0] - 2026-11-03
 
 ### Fixed
@@ -38,6 +47,7 @@ All notable changes to this project are documented here. The format follows
   Mautic REST API, MCP prompts, and three ways to authenticate: OAuth 2.1 with dynamic
   client registration, a fixed bearer token, and HTTP basic auth.
 
-[Unreleased]: https://github.com/woutersf/MauticMcpBundle/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/woutersf/MauticMcpBundle/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/woutersf/MauticMcpBundle/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/woutersf/MauticMcpBundle/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/woutersf/MauticMcpBundle/releases/tag/v1.0.0
