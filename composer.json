@@ -2,10 +2,13 @@
     "name": "woutersf/mautic-mcp-bundle",
     "description": "Exposes Mautic as a remote Model Context Protocol (MCP) server so Claude, ChatGPT and other MCP clients can read and act on Mautic data.",
     "type": "mautic-plugin",
-    "version": "1.0.0",
     "license": "MIT",
     "keywords": ["mautic", "plugin", "mcp", "model-context-protocol", "ai", "claude", "chatgpt"],
     "homepage": "https://github.com/woutersf/MauticMcpBundle",
+    "support": {
+        "issues": "https://github.com/woutersf/MauticMcpBundle/issues",
+        "source": "https://github.com/woutersf/MauticMcpBundle"
+    },
     "authors": [
         {
             "name": "Dropsolid",
@@ -14,14 +17,47 @@
     ],
     "require": {
         "php": ">=8.2",
-        "composer/installers": "^1.0 || ^2.0"
+        "composer/installers": "^1.0 || ^2.0",
+        "mautic/core-lib": "^7.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5"
     },
     "autoload": {
         "psr-4": {
             "MauticPlugin\\MauticMcpBundle\\": ""
-        }
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "extra": {
+        "install-directory-name": "MauticMcpBundle",
         "installer-name": "MauticMcpBundle"
+    },
+    "scripts": {
+        "test": [
+            "@lint",
+            "@unit",
+            "@phpstan"
+        ],
+        "lint": "find . -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null",
+        "unit": "phpunit --configuration phpunit.xml --testsuite=unit",
+        "phpunit": "../../bin/phpunit -d memory_limit=2048M --configuration phpunit.xml --testsuite=all",
+        "phpstan": "phpstan analyse --configuration phpstan.neon"
+    },
+    "scripts-descriptions": {
+        "test": "Everything that runs without a Mautic installation around it.",
+        "lint": "Syntax check every PHP file.",
+        "unit": "Unit tests that need no Mautic classes. Runs in a bare checkout.",
+        "phpunit": "The full suite. Only works when this plugin sits inside a Mautic installation.",
+        "phpstan": "Static analysis of the code that can be analysed standalone."
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true
+        }
     }
 }

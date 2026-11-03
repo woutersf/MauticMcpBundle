@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main, '7.x']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: Syntax check every PHP file
+        run: find . -name '*.php' -print0 | xargs -0 -n1 -P4 php -l > /dev/null
+
+  tests:
+    name: Unit tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+
+      # The unit suite covers the code that needs no Mautic classes, so it runs
+      # against a bare checkout. Tests/bootstrap.php autoloads the plugin itself.
+      # Anything that boots Mautic lives in Tests/Functional and runs inside an
+      # installation instead, through "composer phpunit".
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, libxml, mbstring
+          tools: phpunit:11.5
+          coverage: none
+
+      - name: Run the unit suite
+        run: phpunit --configuration phpunit.xml --testsuite=unit
+
+  static-analysis:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: phpstan:2
+          coverage: none
+
+      - name: Analyse the standalone code
+        run: phpstan analyse --configuration phpstan.neon --no-progress

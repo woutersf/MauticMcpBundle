@@ -1,0 +1,22 @@
+# Static analysis that runs in a bare checkout.
+#
+# Most of this plugin extends Mautic and Symfony classes, which are only on disk when
+# the checkout sits inside a Mautic installation. Analysing those files without Mautic
+# present reports nothing but "unknown class", so the paths below are limited to the
+# code that stands on its own.
+#
+# To analyse everything, put the checkout in a Mautic installation under
+# plugins/MauticMcpBundle and point PHPStan at that installation's autoloader:
+#
+#   vendor/bin/phpstan analyse --autoload-file=../../vendor/autoload.php --level=6 \
+#       Config Controller Entity EventListener Exception Form Integration Service Tests
+
+parameters:
+    level: 8
+    paths:
+        - Exception
+        - Service/BuilderHtmlNormalizer.php
+        - Tests
+    bootstrapFiles:
+        - Tests/bootstrap.php
+    treatPhpDocTypesAsCertain: false

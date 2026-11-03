@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
+         bootstrap="Tests/bootstrap.php"
+         cacheDirectory=".phpunit.cache"
+         colors="true"
+         failOnWarning="true"
+         failOnRisky="true"
+         beStrictAboutOutputDuringTests="true">
+  <testsuites>
+    <testsuite name="unit">
+      <directory>Tests/Unit</directory>
+    </testsuite>
+    <testsuite name="functional">
+      <directory>Tests/Functional</directory>
+    </testsuite>
+    <testsuite name="all">
+      <directory>Tests/Unit</directory>
+      <directory>Tests/Functional</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory>Controller</directory>
+      <directory>Entity</directory>
+      <directory>EventListener</directory>
+      <directory>Form</directory>
+      <directory>Integration</directory>
+      <directory>Service</directory>
+    </include>
+  </source>
+  <php>
+    <server name="KERNEL_DIR" value="../../app"/>
+  </php>
+</phpunit>
