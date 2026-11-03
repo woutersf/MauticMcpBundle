@@ -117,10 +117,15 @@ Any MCP client that speaks Streamable HTTP works. Send JSON-RPC over `POST /mcp`
 | --- | --- |
 | Protected resource metadata (RFC 9728) | `/.well-known/oauth-protected-resource` |
 | Authorization server metadata (RFC 8414) | `/.well-known/oauth-authorization-server` |
+| OpenID Connect discovery (same payload) | `/.well-known/openid-configuration` |
 | Dynamic client registration (RFC 7591) | `/mcp/register` |
 | Authorization (consent screen) | `/s/mcp/authorize` |
 | Token | `/mcp/token` |
 | Revocation (RFC 7009) | `/mcp/revoke` |
+
+Both metadata documents are served at the path aware URI as well, with `/mcp` appended:
+RFC 8414 section 3.1 tells a client to try that form before it falls back to the root one,
+and MCP clients do.
 
 Authorization code with PKCE (S256), refresh tokens with rotation. Tokens are stored as
 SHA-256 hashes, so a leaked database row cannot be replayed against the endpoint. The
