@@ -221,6 +221,14 @@ also need the API access permission.
 off in the configuration. That is the intended behaviour: a tool that is not advertised
 cannot be called.
 
+**A generated email shows a white screen in the builder, console says "No valid HTML
+template found"**: the GrapesJS builder parses the stored HTML and refuses any document
+whose `<head>` or `<body>` comes out empty. A model writing email HTML tends to emit a
+`<body>` and no `<head>` at all, which renders correctly in the list, the preview and the
+sent message, and only breaks in the builder. `BuilderHtmlNormalizer` repairs that on the
+way in, so emails created through this plugin open fine. An email created before that fix,
+or written straight through `mautic_api_request`, still needs a `<head>` added once.
+
 ## Related work
 
 Two other projects cover nearby ground:

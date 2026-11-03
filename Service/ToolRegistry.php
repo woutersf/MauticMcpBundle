@@ -564,7 +564,7 @@ class ToolRegistry
                     'properties' => [
                         'name'        => ['type' => 'string', 'description' => 'Internal name of the email.'],
                         'subject'     => ['type' => 'string', 'description' => 'Subject line shown to the recipient.'],
-                        'customHtml'  => ['type' => 'string', 'description' => 'The HTML body. Mautic tokens such as {contactfield=firstname} are allowed.'],
+                        'customHtml'  => ['type' => 'string', 'description' => 'The HTML body. Write a complete HTML document: <!doctype html><html><head>...</head><body>...</body></html>. The Mautic builder cannot open a document whose <head> is empty. Mautic tokens such as {contactfield=firstname} are allowed.'],
                         'plainText'   => ['type' => 'string', 'description' => 'Plain text alternative body.'],
                         'emailType'   => [
                             'type'        => 'string',
@@ -599,7 +599,7 @@ class ToolRegistry
                         'id'          => ['type' => 'integer', 'description' => 'The numeric email id.'],
                         'name'        => ['type' => 'string'],
                         'subject'     => ['type' => 'string'],
-                        'customHtml'  => ['type' => 'string'],
+                        'customHtml'  => ['type' => 'string', 'description' => 'Write a complete HTML document: <!doctype html><html><head>...</head><body>...</body></html>. The Mautic builder cannot open a document whose <head> is empty. Mautic tokens such as {contactfield=firstname} are allowed.'],
                         'plainText'   => ['type' => 'string'],
                         'isPublished' => ['type' => 'boolean'],
                         'segments'    => ['type' => 'array', 'items' => ['type' => 'integer']],

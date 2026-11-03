@@ -117,6 +117,16 @@ class ToolExecutor
             $body = [];
         }
 
+        // Emails and landing pages both store their body in customHtml, and both are
+        // edited by the same GrapesJS builder, which refuses a document with an empty
+        // head. Repair it here so generated HTML stays openable in the builder.
+        if (isset($body['customHtml']) && is_string($body['customHtml'])) {
+            $body['customHtml'] = BuilderHtmlNormalizer::normalize(
+                $body['customHtml'],
+                (string) ($body['subject'] ?? $body['title'] ?? $body['name'] ?? '')
+            );
+        }
+
         $result = $this->bridge->call($user, $api['method'], $path, $query, $body);
 
         return $this->respond($result);
