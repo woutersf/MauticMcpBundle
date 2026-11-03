@@ -1,5 +1,9 @@
 # Mautic MCP Server
 
+[![CI](https://github.com/woutersf/MauticMcpBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/woutersf/MauticMcpBundle/actions/workflows/ci.yml)
+[![Packagist](https://img.shields.io/packagist/v/woutersf/mautic-mcp-bundle.svg)](https://packagist.org/packages/woutersf/mautic-mcp-bundle)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Exposes a Mautic instance as a remote [Model Context Protocol](https://modelcontextprotocol.io)
 server, so Claude, ChatGPT and other MCP clients can read and act on it.
 
@@ -8,7 +12,7 @@ is stateless: there is no session to keep between calls, which is what the 2026-
 revision of the protocol asks for. Older clients that still send `initialize` first keep
 working, from protocol revision 2024-11-05 onwards.
 
-Requires Mautic 7.x and PHP 8.2 or later. Tested on Mautic 7.1.0 with PHP 8.3.
+Requires Mautic 7.x and PHP 8.2 or later. Tested on Mautic 7.1.0 and 7.2.2 with PHP 8.3.
 
 ## How it works
 
@@ -34,12 +38,16 @@ MCP client  ──POST /mcp──►  McpController
 
 ## Install
 
-Copy or symlink the plugin into `plugins/MauticMcpBundle`, then:
+With Composer, from the root of your Mautic installation:
 
 ```bash
+composer require woutersf/mautic-mcp-bundle
 php bin/console cache:clear
 php bin/console mautic:plugins:reload
 ```
+
+Or copy or symlink the checkout into `plugins/MauticMcpBundle` and run the same two
+console commands. The directory name matters: Mautic derives the bundle name from it.
 
 Three tables are created: `plugin_mcp_oauth_clients`, `plugin_mcp_oauth_codes` and
 `plugin_mcp_oauth_tokens`.
@@ -228,6 +236,29 @@ whose `<head>` or `<body>` comes out empty. A model writing email HTML tends to 
 sent message, and only breaks in the builder. `BuilderHtmlNormalizer` repairs that on the
 way in, so emails created through this plugin open fine. An email created before that fix,
 or written straight through `mautic_api_request`, still needs a `<head>` added once.
+
+## Compatibility and branches
+
+| Branch | Mautic | PHP | Status |
+| --- | --- | --- | --- |
+| `main` | 7.x | 8.2, 8.3, 8.4 | Development. Releases are tagged from here. |
+| `7.x` | 7.x | 8.2, 8.3, 8.4 | Support branch for the Mautic 7 generation. |
+
+Fixes land on `main` and are merged into the support branch when they apply there. Tags
+follow semantic versioning, so `^1.0` on a Mautic 7 site is safe.
+
+## Development
+
+```bash
+composer install
+composer test        # lint, unit tests and static analysis, no Mautic needed
+```
+
+The unit suite covers the code that stands on its own, so it runs in a bare checkout on
+every supported PHP version. Anything that boots Mautic belongs in `Tests/Functional` and
+runs through `composer phpunit` from inside an installation. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for the full setup and the conventions this project
+follows.
 
 ## Related work
 
