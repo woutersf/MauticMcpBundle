@@ -276,4 +276,9 @@ switches.
 
 ## License
 
-MIT.
+MIT. See [LICENSE](LICENSE).
+
+## Author
+
+Built by [Frederik Wouters](https://frederikwouters.be) at
+[Dropsolid](https://dropsolid.com).

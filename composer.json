@@ -3,13 +3,26 @@
     "description": "Exposes Mautic as a remote Model Context Protocol (MCP) server so Claude, ChatGPT and other MCP clients can read and act on Mautic data.",
     "type": "mautic-plugin",
     "license": "MIT",
-    "keywords": ["mautic", "plugin", "mcp", "model-context-protocol", "ai", "claude", "chatgpt"],
+    "keywords": [
+        "mautic",
+        "plugin",
+        "mcp",
+        "model-context-protocol",
+        "ai",
+        "claude",
+        "chatgpt"
+    ],
     "homepage": "https://github.com/woutersf/MauticMcpBundle",
     "support": {
         "issues": "https://github.com/woutersf/MauticMcpBundle/issues",
         "source": "https://github.com/woutersf/MauticMcpBundle"
     },
     "authors": [
+        {
+            "name": "Frederik Wouters",
+            "homepage": "https://frederikwouters.be",
+            "role": "Developer"
+        },
         {
             "name": "Dropsolid",
             "homepage": "https://dropsolid.com"
